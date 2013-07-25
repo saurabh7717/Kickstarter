@@ -595,7 +595,7 @@ body.custom-background { background-color: #ffffff; background-image: url('http:
 <script type='text/javascript' src='http://s0.wp.com/wp-content/js/devicepx-jetpack.js?ver=201324'></script>
 <script type='text/javascript' src='http://demo.astoundify.com/fundify/wp-includes/js/jquery/jquery.masonry.min.js?ver=2.1.05'></script>
 <script type='text/javascript' src='http://demo.astoundify.com/fundify/wp-content/themes/fundify/js/jquery.formatCurrency-1.4.0.pack.js?ver=1.4.1'></script>
-<script type='text/javascript' src='http://demo.astoundify.com/fundify/wp-content/themes/fundify/js/jquery.fancybox.pack.js?ver=2.1.4'></script>
+<script type='text/javascript' src='http://demo.astoundify.com/fundify/wp-content/themes/fundify/js/jquery.magnific-popup.min.js?ver=2.1.4'></script>
 <script type='text/javascript'>
 /* <![CDATA[ */
 var fundifySettings = {"is_front_page":"","currency":{"thousands":",","decimal":".","symbol":"&#36;"}};
