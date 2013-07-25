@@ -105,9 +105,11 @@ body.custom-background { background-color: #ffffff; background-image: url('http:
 		</head>
 <body class="single single-download postid-30 custom-background mini-header fixed-header">
 <?php
-	require_once("includes/connection.php");
-	require_once("includes/form_func.php");
-	$id = $_GET['id'];
+	require_once("includes/session.php");
+require_once("includes/connection.php");
+require_once("includes/form_func.php");
+?>	
+<?php   $id = $_GET['id'];
 	$query = mysql_query("SELECT * from details WHERE id='{$id}'");
 	$row = mysql_fetch_assoc($query);
 ?>	
@@ -151,7 +153,8 @@ body.custom-background { background-color: #ffffff; background-image: url('http:
 </ul>
 </li>-->
 <li id="menu-item-396" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-396"><a href="contact.php">Contact</a></li>
-<li id="login-modal" class="login menu-item menu-item-type-post_type menu-item-object-page menu-item-865"><a href="#login-modal-wrap" id="modal">Sign In</a></li>
+<li id="login-modal" class="login menu-item menu-item-type-post_type menu-item-object-page menu-item-865"><a href="#login-modal-wrap" id="modal">
+<?php if(isset($_SESSION['username'])){echo $_SESSION['username'];}else{echo "Sign In";}?></a></li>
 </ul>			</nav>
 			<!-- / navigation -->
 
@@ -645,7 +648,7 @@ creating low-latency interrupt paths in the operating system to prevent buffer u
 				<input type="hidden" name="redirect_to" value="http://demo.astoundify.com/fundify/account/" />
 			</p>
 			<p>
-		<a href="http://demo.astoundify.com/fundify/wp-login.php?action=lostpassword">Forgot Password</a> or <a href="register.html">Register</a></p>
+		<a href="process-logout.php">Logout</a> or <a href="register.html">Register</a></p>
 		</form></div>
 </div>
 <div id="register-modal-wrap" class="modal-register modal">

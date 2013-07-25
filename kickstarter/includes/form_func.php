@@ -32,4 +32,41 @@
         $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
         return $length-$days;    
     }
+    
+    function login_check($name,$password){
+	$uname = trim(mysql_prep($name));
+	$passwd = trim(mysql_prep($password));
+	$h_passwd = sha1($passwd);
+	
+	$query = "SELECT uid,username,password,email from users WHERE username = '{$uname}' && password = '{$h_passwd}' LIMIT 1";
+	$result = mysql_query($query);
+	if(!$result){
+	    die('Database connection failed'.mysql_error());
+	    
+	}
+	$found_user = mysql_fetch_array($result);
+	if($found_user){
+	$SESSION['uid'] = $found_user['uid'];
+	$SESSION['username'] = $found_user['username'];
+	return true;
+	}
+	else{
+	return false;
+	}
+    }
+    
+    function register_user($unm,$em,$pwd){
+	$uname = trim(mysql_prep($unm));
+	$email = trim(mysql_prep($em));
+	$passwd = trim(mysql_prep($pwd));
+	echo $passwd;
+	$h_passwd = sha1($passwd);
+	echo $h_passwd;
+	$query = "INSERT into users (username,email,password) VALUES('{$uname}','{$email}','{$h_passwd}')";
+	$result = mysql_query($query);
+	if(!$result){
+	    return false;
+	}
+	return true;
+    }
 ?>

@@ -102,6 +102,10 @@ body.custom-background { background-color: #ffffff; background-image: url('http:
 		<link rel="stylesheet" id="custom-css-css" type="text/css" href="http://demo.astoundify.com/fundify/?custom-css=1&#038;csblog=6&#038;cscache=6&#038;csrev=8" />
 		</head>
 <body class="home page page-id-19 page-template page-template-page-templatesfront-page-php custom-background mini-header fixed-header">
+<?php require_once('includes/session.php');
+require_once("includes/connection.php");
+require_once("includes/form_func.php");
+?>	
 <div id="page" class="hfeed site">
 	
 	<header id="header" class="site-header" role="banner">
@@ -142,7 +146,9 @@ body.custom-background { background-color: #ffffff; background-image: url('http:
 </ul>
 </li>-->
 <li id="menu-item-396" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-396"><a href="contact.php">Contact</a></li>
-<li id="login-modal" class="login menu-item menu-item-type-post_type menu-item-object-page menu-item-865"><a href="#login-modal-wrap" id="modal">Sign In</a></li>
+<li id="login-modal" class="login menu-item menu-item-type-post_type menu-item-object-page menu-item-865"><a href="#login-modal-wrap" id="modal">
+
+<?php if(isset($_SESSION['username'])){echo $_SESSION['username'];}else{echo "Sign In";}?></a></li>
 </ul>
 			</nav>
 			<!-- / navigation -->
@@ -361,7 +367,7 @@ ABCD;
 }
 	
 ?>	
-<article id="post-30" class="post-30 download type-download status-publish hentry item">
+<!--<article id="post-30" class="post-30 download type-download status-publish hentry item">
 	<a href="description.php" title="Permalink to Swap Streaming Music" rel="bookmark">
 		<img width="253" height="252" src="http://demo.astoundify.com/fundify/wp-content/uploads/sites/6/2013/02/2102264370_a5c8953ed1_o-253x252.jpg" class="attachment-campaign wp-post-image" alt="2102264370_a5c8953ed1_o" /></a>
 	
@@ -379,7 +385,7 @@ ABCD;
 			<li><strong>72</strong> Days to Go</li>
 		</ul>
 	</div>
-</article>													
+</article>-->													
 <!--<article id="post-232" class="post-232 download type-download status-publish hentry item">
 	<a href="http://demo.astoundify.com/fundify/campaigns/the-bread-bar/" title="Permalink to The Bread Bar" rel="bookmark">
 		<img width="253" height="168" src="http://demo.astoundify.com/fundify/wp-content/uploads/sites/6/2013/02/6958893813_d0fcb944f4_o-253x168.jpg" class="attachment-campaign wp-post-image" alt="6958893813_d0fcb944f4_o" />	</a>
@@ -1241,7 +1247,7 @@ ABCD;
 	<h2 class="modal-title">Sign In</h2>
 
 	<div class="atcf-login">
-		<form name="loginform" id="loginform" action="http://demo.astoundify.com/fundify/wp-login.php" method="post">
+		<form name="loginform" id="loginform" action="process_login.php" method="post">
 			
 			<p class="login-username">
 				<label for="user_login">Username</label>
@@ -1255,20 +1261,20 @@ ABCD;
 			<p class="login-remember"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" /> Remember Me</label></p>
 			<p class="login-submit">
 				<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Log In" />
-				<input type="hidden" name="redirect_to" value="http://demo.astoundify.com/fundify/account/" />
+				<input type="hidden" name="redirect_to" value="index.php" />
 			</p>
 			<p>
-		<a href="http://demo.astoundify.com/fundify/wp-login.php?action=lostpassword">Forgot Password</a> or <a href="register.html">Register</a></p>
+		<a href="process-logout.php">Logout</a> or <a href="register.php">Register</a></p>
 		</form></div>
 </div>
 <div id="register-modal-wrap" class="modal-register modal">
 	<h2 class="modal-title">Register</h2>
 
-	<div class="atcf-register"><form name="registerform" id="registerform" action="" method="post">	<p class="atcf-register-name">
-		<label for="user_nicename">Your Name</label>
+	<div class="atcf-register"><form name="registerform" id="registerform" action="process_register.php" method="post">	<p class="atcf-register-name">
+<!--		<label for="user_nicename">Your Name</label>
 		<input type="text" name="displayname" id="displayname" class="input" value="" />
 	</p>
-
+-->
 	<p class="atcf-register-email">
 		<label for="user_login">Email Address</label>
 		<input type="text" name="user_email" id="user_email" class="input" value="" />

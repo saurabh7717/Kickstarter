@@ -105,7 +105,7 @@ body.custom-background { background-color: #ffffff; background-image: url('http:
 <?php
 	require_once("includes/form_func.php");
 	require_once("includes/connection.php");
-	
+	require_once("includes/session.php");
 	if(isset($_POST['submit'])){
 		$errors = array();
 		$req_fields = array('title','goal','length','description','excerpt','image','video','contact-email','email','name','location');
@@ -212,7 +212,8 @@ body.custom-background { background-color: #ffffff; background-image: url('http:
 </ul>
 </li>-->
 <li id="menu-item-396" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-396"><a href="contact.php">Contact</a></li>
-<li id="login-modal" class="login menu-item menu-item-type-post_type menu-item-object-page menu-item-865"><a href="#login-modal-wrap" id="modal">Sign In</a></li>
+<li id="login-modal" class="login menu-item menu-item-type-post_type menu-item-object-page menu-item-865"><a href="#login-modal-wrap" id="modal">
+<?php if(isset($_SESSION['username'])){echo $_SESSION['username'];}else{echo "Sign In";}?></a></li>
 </ul>			</nav>
 			<!-- / navigation -->
 
@@ -559,7 +560,7 @@ body.custom-background { background-color: #ffffff; background-image: url('http:
 				<input type="hidden" name="redirect_to" value="http://demo.astoundify.com/fundify/account/" />
 			</p>
 			<p>
-		<a href="http://demo.astoundify.com/fundify/wp-login.php?action=lostpassword">Forgot Password</a> or <a href="register.html">Register</a></p>
+		<a href="process-logout.php">Logout</a> or <a href="register.html">Register</a></p>
 		</form></div>
 </div>
 <div id="register-modal-wrap" class="modal-register modal">
