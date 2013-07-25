@@ -102,7 +102,10 @@ body.custom-background { background-color: #ffffff; background-image: url('http:
 		<link rel="stylesheet" id="custom-css-css" type="text/css" href="http://demo.astoundify.com/fundify/?custom-css=1&#038;csblog=6&#038;cscache=6&#038;csrev=8" />
 		</head>
 <body class="page page-id-867 page-template-default custom-background mini-header fixed-header">
-
+<?php   require_once("includes/connection.php");
+	require_once("includes/form_func.php");
+	require_once("includes/session.php");
+	?>
 <div id="page" class="hfeed site">
 	
 	<header id="header" class="site-header" role="banner">
@@ -142,7 +145,8 @@ body.custom-background { background-color: #ffffff; background-image: url('http:
 </ul>
 </li>-->
 <li id="menu-item-396" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-396"><a href="contact.php">Contact</a></li>
-<li id="login-modal" class="login menu-item menu-item-type-post_type menu-item-object-page menu-item-865"><a href="#login-modal-wrap" id="modal">Sign In</a></li>
+<li id="login-modal" class="login menu-item menu-item-type-post_type menu-item-object-page menu-item-865"><a href="#login-modal-wrap" id="modal">
+<?php if(isset($_SESSION['username'])){echo $_SESSION['username'];}else{echo "Sign In";}?></a></li>
 </ul>			</nav>
 			<!-- / navigation -->
 
@@ -168,15 +172,24 @@ body.custom-background { background-color: #ffffff; background-image: url('http:
 	<div id="content">
 		<div class="container">
 			<div id="main-content">
+<?php
+	if(isset($_GET['pass'])){
+		echo '<p>' . 'User registered' . '</p>';
+	}
+	elseif(isset($_GET['fail'])){
+		echo '<p>' . 'Registration failed' . '</p>';
+	}
+	?>
 									
 <article id="post-867" class="post-867 page type-page status-publish hentry">
 	
 	<div class="entry-content">
 				
-		<div class="atcf-register"><form name="registerform" id="registerform" action="" method="post">	<p class="atcf-register-name">
+		<div class="atcf-register"><form name="registerform" id="registerform" action="process_register.php" method="post">
+	<!--	<p class="atcf-register-name">
 		<label for="user_nicename">Your Name</label>
 		<input type="text" name="displayname" id="displayname" class="input" value="" />
-	</p>
+	</p>-->
 
 	<p class="atcf-register-email">
 		<label for="user_login">Email Address</label>
@@ -198,6 +211,7 @@ body.custom-background { background-color: #ffffff; background-image: url('http:
 		<input type="hidden" name="action" value="atcf-register-submit" />
 		<input type="hidden" id="_wpnonce" name="_wpnonce" value="933e30089e" /><input type="hidden" name="_wp_http_referer" value="/fundify/register/" />	</p>
 </form></div>
+		
 
 														</div><!-- .entry-content -->
 </article>
@@ -367,7 +381,7 @@ body.custom-background { background-color: #ffffff; background-image: url('http:
 	<h2 class="modal-title">Sign In</h2>
 
 	<div class="atcf-login">
-		<form name="loginform" id="loginform" action="http://demo.astoundify.com/fundify/wp-login.php" method="post">
+		<form name="loginform" id="loginform" action="process_login.php" method="post">
 			
 			<p class="login-username">
 				<label for="user_login">Username</label>
@@ -381,20 +395,22 @@ body.custom-background { background-color: #ffffff; background-image: url('http:
 			<p class="login-remember"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" /> Remember Me</label></p>
 			<p class="login-submit">
 				<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Log In" />
-				<input type="hidden" name="redirect_to" value="http://demo.astoundify.com/fundify/account/" />
+				<input type="hidden" name="redirect_to" value="register.php" />
 			</p>
 			<p>
-		<a href="http://demo.astoundify.com/fundify/wp-login.php?action=lostpassword">Forgot Password</a> or <a href="register.html">Register</a></p>
+		<a href="process-logout.php">Logout</a> or <a href="register.html">Register</a></p>
 		</form></div>
 </div>
+
 <div id="register-modal-wrap" class="modal-register modal">
 	<h2 class="modal-title">Register</h2>
 
-	<div class="atcf-register"><form name="registerform" id="registerform" action="" method="post">	<p class="atcf-register-name">
+	<div class="atcf-register"><form name="registerform" id="registerform" action="process_register.php" method="post">
+	<!--<p class="atcf-register-name">
 		<label for="user_nicename">Your Name</label>
 		<input type="text" name="displayname" id="displayname" class="input" value="" />
 	</p>
-
+-->
 	<p class="atcf-register-email">
 		<label for="user_login">Email Address</label>
 		<input type="text" name="user_email" id="user_email" class="input" value="" />
@@ -415,7 +431,9 @@ body.custom-background { background-color: #ffffff; background-image: url('http:
 		<input type="hidden" name="action" value="atcf-register-submit" />
 		<input type="hidden" id="_wpnonce" name="_wpnonce" value="933e30089e" /><input type="hidden" name="_wp_http_referer" value="/fundify/register/" />	</p>
 </form></div>
-</div><script type='text/javascript' src='//platform.twitter.com/widgets.js?ver=3.5.1'></script>
+	
+</div>
+	<script type='text/javascript' src='//platform.twitter.com/widgets.js?ver=3.5.1'></script>
 <script type='text/javascript' src='http://s0.wp.com/wp-content/js/devicepx-jetpack.js?ver=201324'></script>
 <script type='text/javascript' src='http://demo.astoundify.com/fundify/wp-includes/js/jquery/jquery.masonry.min.js?ver=2.1.05'></script>
 <script type='text/javascript' src='http://demo.astoundify.com/fundify/wp-content/themes/fundify/js/jquery.formatCurrency-1.4.0.pack.js?ver=1.4.1'></script>
