@@ -10,8 +10,8 @@ require_once("includes/connection.php");
         
         if(login_check($name,$password) == true){
             $x = $redirect . "?success=" . $name;
-            header("Location:{$x}");
             $_SESSION['username'] = $name;
+            header("Location:{$x}");
         }
         else{
             $x = $redirect . "?error=" . $name;

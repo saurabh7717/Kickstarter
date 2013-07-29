@@ -59,10 +59,22 @@
 	$uname = trim(mysql_prep($unm));
 	$email = trim(mysql_prep($em));
 	$passwd = trim(mysql_prep($pwd));
-	echo $passwd;
+	//echo $passwd;
 	$h_passwd = sha1($passwd);
-	echo $h_passwd;
+	//echo $h_passwd;
 	$query = "INSERT into users (username,email,password) VALUES('{$uname}','{$email}','{$h_passwd}')";
+	$result = mysql_query($query);
+	if(!$result){
+	    return false;
+	}
+	return true;
+    }
+    
+    function register_comment($id,$comm,$user){
+	$did = trim(mysql_prep($id));
+	$comment = trim(mysql_prep($comm));
+	//$curdate = date('Y-m-d');
+	$query = "INSERT into comments (desc_id,comment,user) VALUES('{$did}','{$comment}','{$user}')";
 	$result = mysql_query($query);
 	if(!$result){
 	    return false;

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <!--[if IE 7]> <html class="ie7 oldie" lang="en" lang="en-US"> <![endif]-->
 <!--[if IE 8]> <html class="ie8 oldie" lang="en" lang="en-US"> <![endif]-->
@@ -110,8 +109,12 @@ require_once("includes/connection.php");
 require_once("includes/form_func.php");
 ?>	
 <?php   $id = $_GET['id'];
-	$query = mysql_query("SELECT * from details WHERE id='{$id}'");
-	$row = mysql_fetch_assoc($query);
+	$query = mysql_query("SELECT * from details WHERE id = '{$id}'");
+	if(!$query){
+		die('Database connection failed ' .mysql_error());
+		}
+	
+	$row = mysql_fetch_array($query);
 ?>	
 <div id="page" class="hfeed site">
 	
@@ -468,48 +471,73 @@ creating low-latency interrupt paths in the operating system to prevent buffer u
 	<div itemscope itemtype="http://schema.org/Product" itemprop="description">
 		<?php echo $row['description'];?>				
 	</div></div>			
+<?php
+	require_once("includes/connection.php");
+	require_once("includes/form_func.php");
+	require_once("includes/session.php");
 
+	$qnew = mysql_query("SELECT * from comments WHERE desc_id='{$id}'");
+	//$r = mysql_fetch_assoc($qnew);
+	//$comm_num = mysql_num_rows($qnew);
+?>
 	<div id="comments" class="comments-area">
 					
 			<h2 class="comments-title">
-			1 Comment		</h2>
+			<?php echo mysql_num_rows($qnew)." Comment"; ?>	</h2>
 
-		
+		<?
+			
 		<ol class="commentlist">
-				<li class="comment byuser comment-author-AppThemer bypostauthor even thread-even depth-1" id="li-comment-10">
-		<article id="comment-10" class="comment">
-			<div class="reply"><a class='comment-reply-link' href='/fundify/campaigns/swap-streaming-music/?replytocom=10#respond' onclick='return addComment.moveForm("comment-10", "10", "respond", "30")'>Reply</a></div>
-			<header class="comment-meta">
-				<img alt='' src='http://1.gravatar.com/avatar/d5e3962bae7e0ee1196f9f234a664221?s=53&amp;d=&amp;r=G' class='avatar avatar-53 photo' height='53' width='53' />				<cite class="fn">appthemer</cite>				<a href="http://demo.astoundify.com/fundify/campaigns/swap-streaming-music/#comment-10"><time>February 17, 2013</time></a>
+		<?php
+		while($result = mysql_fetch_assoc($qnew)){
+		echo "
+				<li class=\"comment byuser comment-author-AppThemer bypostauthor even thread-even depth-1\" id=\"li-comment-10\">
+		<article id=\"comment-10\" class=\"comment\">
+			<div class=\"reply\"><a class='comment-reply-link' href='/fundify/campaigns/swap-streaming-music/?replytocom=10#respond' onclick='return addComment.moveForm(\"comment-10\", \"10\", \"respond\", \"30\")'>Reply</a></div>
+			<header class=\"comment-meta\">
+				<img alt='' src='http://1.gravatar.com/avatar/d5e3962bae7e0ee1196f9f234a664221?s=53&amp;d=&amp;r=G' class='avatar avatar-53 photo' height='53' width='53' />
+				<cite class=\"fn\">" . $result['user'] . "</cite>
+				<a href=\"http://demo.astoundify.com/fundify/campaigns/swap-streaming-music/#comment-10\">
+				<time>" . $result['timestamp'] . "</time></a>
 			</header>
 			<!-- .comment-meta -->
 			
-			<section class="comment-content comment">
-				<p>Wow I can&#8217;t wait!</p>
+			<section class=\"comment-content comment\">
+				<p>".$result['comment']."</p>
 							</section>
 			<!-- .comment-content -->
 			
 			<!-- .reply --> 
 		</article>
-	</li>
+	</li>";}
+	?>
 		</ol><!-- .commentlist -->
 
 		
 	
 	
 									<div id="respond">
-				<h3 id="reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/fundify/campaigns/swap-streaming-music/#respond" style="display:none;">Cancel reply</a></small></h3>
-<form action="http://demo.astoundify.com/fundify/wp-comments-post.php" method="post" id="commentform">
-																									<p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" aria-required='true' /></p>
-<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" aria-required='true' /></p>
-<p class="comment-form-url"><label for="url">Website</label><input id="url" name="url" type="text" value="" size="30" /></p>
-												<p class="comment-form-comment"><label for="comment">Comment</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>												<p class="form-submit">
-							<input name="submit" type="submit" id="submit" value="Post Comment" />
-							<input type='hidden' name='comment_post_ID' value='30' id='comment_post_ID' />
+<?php if(!isset($_SESSION['username'])){echo "
+<h3 id=\"reply-title\">Login Required to Comment</small></h3>"; }?>
+<?php if(isset($_SESSION['username'])){
+echo "
+<h3 id=\"reply-title\">Leave a Reply </h3>
+<form action=\"process_comment.php\" method=\"post\" id=\"commentform\">
+<!--<p class=\"comment-form-author\"><label for=\"author\">Name <span class=\"required\">*</span></label> <input id=\"author\" name=\"author\" type=\"text\" value=\"\" size=\"30\" aria-required='true' /></p>
+<p class=\"comment-form-email\"><label for=\"email\">Email <span class=\"required\">*</span></label> <input id=\"email\" name=\"email\" type=\"text\" value=\"\" size=\"30\" aria-required='true' /></p>
+<p class=\"comment-form-url\"><label for=\"url\">Website</label><input id=\"url\" name=\"url\" type=\"text\" value=\"\" size=\"30\" /></p>-->
+<p class=\"comment-form-comment\"><label for=\"comment\">Comment</label>
+<textarea id=\"comment\" name=\"comment\" cols=\"45\" rows=\"8\" aria-required=\"true\"></textarea></p>
+<p class=\"form-submit\">
+<input name=\"submit\" type=\"submit\" id=\"submit\" value=\"Post Comment\" />
+<input type='hidden' name='comment_post_ID' value='". $row['id'] . "' id='comment_post_ID' />
+<input type=\"hidden\" name=\"redirect_to\" value=\"description.php?id=" . $row['id'] . "#comments \" />
+<input type=\"hidden\" name=\"user\" value=\"" . $_SESSION['username'] . "\">
 <input type='hidden' name='comment_parent' id='comment_parent' value='0' />
 						</p>
-						<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="de6a56daea" /></p>					</form>
-							</div><!-- #respond -->
+<p style=\"display: none;\"><input type=\"hidden\" id=\"akismet_comment_nonce\" name=\"akismet_comment_nonce\" value=\"de6a56daea\" /></p>					</form>
+						</form>";}
+						?> </div><!-- #respond -->
 						
 </div><!-- #comments .comments-area -->
 
@@ -631,7 +659,7 @@ creating low-latency interrupt paths in the operating system to prevent buffer u
 	<h2 class="modal-title">Sign In</h2>
 
 	<div class="atcf-login">
-		<form name="loginform" id="loginform" action="http://demo.astoundify.com/fundify/wp-login.php" method="post">
+		<form name="loginform" id="loginform" action="process_login.php" method="post">
 			
 			<p class="login-username">
 				<label for="user_login">Username</label>
@@ -645,7 +673,7 @@ creating low-latency interrupt paths in the operating system to prevent buffer u
 			<p class="login-remember"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" /> Remember Me</label></p>
 			<p class="login-submit">
 				<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="Log In" />
-				<input type="hidden" name="redirect_to" value="http://demo.astoundify.com/fundify/account/" />
+				<input type="hidden" name="redirect_to" value=<?php echo "description.php?id=". $row['id']; ?> />
 			</p>
 			<p>
 		<a href="process-logout.php">Logout</a> or <a href="register.html">Register</a></p>
